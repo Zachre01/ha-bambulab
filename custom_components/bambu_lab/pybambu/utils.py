@@ -1,3 +1,4 @@
+import asyncio
 import copy
 import functools
 import gzip
@@ -7,6 +8,7 @@ import math
 import requests
 import socket
 import re
+import time
 
 from datetime import datetime, timedelta, timezone
 from urllib.parse import quote, urlparse, urlunparse
@@ -38,6 +40,29 @@ def search(lst, predicate, default={}):
         if predicate(item):
             return item
     return default
+
+
+def normalize_service_target(data) -> dict:
+    """Return a copy of service call data with a single device_id/entity_id as a string.
+
+    A script's `target:` is validated with ensure_list, so these arrive as lists from YAML
+    but as plain strings from the UI. Raises ValueError unless there is a target, and for more
+    than one, because a service call acts on a single printer.
+    """
+    normalized = dict(data)
+    for key in ("device_id", "entity_id"):
+        value = normalized.get(key)
+        if not isinstance(value, (list, tuple)):
+            continue
+        if len(value) > 1:
+            raise ValueError(f"only one {key} can be targeted at a time, got {len(value)}")
+        if value:
+            normalized[key] = value[0]
+        else:
+            del normalized[key]
+    if "device_id" not in normalized and "entity_id" not in normalized:
+        raise ValueError("no device_id or entity_id provided")
+    return normalized
 
 
 def get_authenticated_rtsp_url(
@@ -491,3 +516,13 @@ def ams_tray_spool_loaded(state):
     if state <= AMS_TRAY_STATE_LEGACY_MAX:
         return state == AMS_TRAY_STATE_LEGACY_MAX
     return bool(state & AMSTrayStateFlags.STEADY)
+
+
+async def async_wait_until(condition, timeout: float, interval: float = 0.1) -> bool:
+    """Poll condition until it is true. Returns False if timeout seconds pass first."""
+    deadline = time.monotonic() + timeout
+    while not condition():
+        if time.monotonic() >= deadline:
+            return False
+        await asyncio.sleep(interval)
+    return True

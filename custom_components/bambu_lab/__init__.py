@@ -26,6 +26,7 @@ from .const import (
     SERVICE_CALL_EVENT
 )
 from .coordinator import BambuDataUpdateCoordinator
+from .pybambu.utils import normalize_service_target
 from .diagnostics import TO_REDACT
 from .frontend import BambuLabCardRegistration
 from .config_flow import CONFIG_VERSION
@@ -355,6 +356,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
+    if coordinator.makerworld is not None:
+        # Deliberately not async_config_entry_first_refresh(): MakerWorld is a
+        # bonus, so a failure here must not hold up the printer. The sensors are
+        # created either way and report unavailable until a poll succeeds.
+        await coordinator.makerworld.async_refresh()
+
     # Register file cache API endpoints
     hass.http.register_view(PrintHistoryAPIView(hass))
     hass.http.register_view(VideoAPIView(hass))
@@ -363,7 +370,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     async def handle_service_call(call: ServiceCall):
         LOGGER.debug(f"handle_service_call: {call.service}")
-        data = dict(call.data)
+        try:
+            data = normalize_service_target(call.data)
+        except ValueError as e:
+            LOGGER.error(f"Service call '{call.service}' rejected: {e}")
+            return None
         data['service'] = call.service
         
         future = asyncio.Future()

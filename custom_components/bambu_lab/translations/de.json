@@ -244,6 +244,12 @@
       },
       "hybrid_mode_blocks_control": {
         "name": "Hybrides MQTT blockiert die Kontrolle"
+      },
+      "left_extruder_filament_state": {
+        "name": "Linkes Extruderfilament"
+      },
+      "right_extruder_filament_state": {
+        "name": "Rechtes Extruderfilament"
       }
     },
     "button": {
@@ -284,6 +290,18 @@
       },
       "secondary_aux_fan": {
         "name": "Sekundärer Aux-Lüfter"
+      },
+      "part_fan": {
+        "name": "Teilweise Fan"
+      },
+      "left_aux_fan": {
+        "name": "Linker Aux-Lüfter"
+      },
+      "right_aux_fan": {
+        "name": "Rechter Aux-Lüfter"
+      },
+      "exhaust_fan": {
+        "name": "Abluftventilator"
       }
     },
     "image": {
@@ -338,6 +356,66 @@
       }
     },
     "sensor": {
+      "makerworld_boosts_received": {
+        "name": "Erhaltene Boosts"
+      },
+      "makerworld_prints_total": {
+        "name": "Drucke inkl. Druckprofile"
+      },
+      "makerworld_downloads_total": {
+        "name": "Downloads inkl. Druckprofile"
+      },
+      "makerworld_points": {
+        "name": "Punkte"
+      },
+      "makerworld_points_earned": {
+        "name": "Punkte verdient"
+      },
+      "makerworld_points_spent": {
+        "name": "Punkte ausgegeben"
+      },
+      "makerworld_points_exclusive": {
+        "name": "Exklusive Punkte"
+      },
+      "makerworld_boost_tokens": {
+        "name": "Boost-Tokens"
+      },
+      "makerworld_boosts_used": {
+        "name": "Boosts verwendet"
+      },
+      "makerworld_boosts_expired": {
+        "name": "Boosts verfallen"
+      },
+      "makerworld_downloads": {
+        "name": "Downloads"
+      },
+      "makerworld_instance_downloads": {
+        "name": "Druckprofil-Downloads"
+      },
+      "makerworld_prints": {
+        "name": "Drucke"
+      },
+      "makerworld_instance_prints": {
+        "name": "Druckprofil-Drucke"
+      },
+      "makerworld_designs": {
+        "name": "Veröffentlichte Modelle"
+      },
+      "makerworld_likes": {
+        "name": "Likes"
+      },
+      "makerworld_collections": {
+        "name": "Sammlungen"
+      },
+      "makerworld_followers": {
+        "name": "Follower"
+      },
+      "makerworld_following": {
+        "name": "Folgt"
+      },
+      "makerworld_level": {
+        "name": "Level"
+      },
       "tool_module": {
         "name": "Werkzeugmodul",
         "state": {
@@ -880,6 +958,61 @@
       },
       "hotend_rack_hotend_used_time": {
         "name": "Hotend {hotend_id} verwendete Zeit"
+      },
+      "active_nozzle": {
+        "name": "Aktive Düse",
+        "state": {
+          "left": "Links",
+          "right": "Rechts"
+        }
+      },
+      "ams_status": {
+        "name": "Status",
+        "state": {
+          "idle": "Leerlauf",
+          "changing_filament": "Filament wechseln",
+          "heating_nozzle": "Heizdüse",
+          "cutting_filament": "Filament schneiden",
+          "pulling_back_filament": "Zurückziehen des aktuellen Filaments",
+          "pushing_new_filament": "Neues Filament einschieben",
+          "purging_old_filament": "Altes Filament entfernen",
+          "checking_position": "Überprüfung der Filamentposition",
+          "rfid_identifying": "RFID identifizieren",
+          "filament_loaded": "Filament geladen",
+          "calibration": "Kalibrierung",
+          "cold_pull": "Kaltzug",
+          "self_check": "Selbstkontrolle",
+          "debug": "Debuggen",
+          "unknown": "Unbekannt"
+        }
+      },
+      "track_switch_input": {
+        "name": "Gleisschalter-Eingabe {input_number}",
+        "state": {
+          "left": "Linke Düse",
+          "right": "Rechte Düse",
+          "empty": "Leer"
+        }
+      },
+      "connected_nozzle": {
+        "name": "Verbundene Düse",
+        "state": {
+          "left": "Links",
+          "right": "Rechts",
+          "track_switch": "Gleisweiche"
+        }
+      },
+      "part_fan_speed": {
+        "name": "Teilweise Lüftergeschwindigkeit"
+      },
+      "left_aux_fan_speed": {
+        "name": "Geschwindigkeit des linken Zusatzlüfters"
+      },
+      "right_aux_fan_speed": {
+        "name": "Rechte Aux-Lüftergeschwindigkeit"
+      },
+      "exhaust_fan_speed": {
+        "name": "Geschwindigkeit des Abluftventilators"
       }
     },
     "camera": {
