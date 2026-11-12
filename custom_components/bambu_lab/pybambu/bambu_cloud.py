@@ -96,14 +96,14 @@ class BambuCloud:
 
     def _get_headers(self):
         return {
-            'User-Agent': 'bambu_network_agent/01.09.05.01',
-            'X-BBL-Client-Name': 'OrcaSlicer',
-            'X-BBL-Client-Type': 'slicer',
-            'X-BBL-Client-Version': '01.09.05.51',
+            'User-Agent': 'ha-bambulab/v1',
+            'X-BBL-Client-Name': 'ha-bambulab',
+            'X-BBL-Client-Type': 'homeautomation',
+            'X-BBL-Client-Version': '01.00.00.00',
             'X-BBL-Language': 'en-US',
             'X-BBL-OS-Type': 'linux',
             'X-BBL-OS-Version': '6.2.0',
-            'X-BBL-Agent-Version': '01.09.05.01',
+            'X-BBL-Agent-Version': '01.00.00.00',
             'X-BBL-Executable-info': '{}',
             'X-BBL-Agent-OS-Type': 'linux',
             'accept': 'application/json',
@@ -313,7 +313,12 @@ class BambuCloud:
         headers['x-bbl-csrf-token'] = csrf_response.cookies.get('bbl_csrf_token')
         headers['Cookie'] = f"bbl_csrf_token={csrf_response.cookies.get('bbl_csrf_token')}"
 
-        response = self._post(BambuUrl.TFA_LOGIN, headers=headers, json=data)
+        response = self._post(BambuUrl.TFA_LOGIN, headers=headers, json=data, return400=True)
+        if response.status_code == 400:
+            LOGGER.debug(f"Response: '{response.text}'")
+            if 'Incorrect code' in response.text:
+                raise CodeIncorrectError()
+            raise PermissionError(response.status_code, response.text)
 
         LOGGER.debug(f"Response: {response.status_code}")
         if response.status_code == 200:
