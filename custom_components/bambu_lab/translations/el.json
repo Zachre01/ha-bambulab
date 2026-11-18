@@ -17,7 +17,10 @@
       "already_configured": "Η συσκευή είναι ήδη ρυθμισμένη",
       "no_printers": "Δεν βρέθηκαν μη ρυθμισμένοι εκτυπωτές στον λογαριασμό.",
       "cloudflare": "Το Cloudflare έχει μπλοκάρει την προσπάθεια σύνδεσης.",
-      "curl_unavailable": "Η βιβλιοθήκη curl_cffi δεν είναι διαθέσιμη."
+      "curl_unavailable": "Η βιβλιοθήκη curl_cffi δεν είναι διαθέσιμη.",
+      "no_working_credentials": "Δεν διατίθενται διαπιστευτήρια εκτυπωτή Bambu Cloud που να λειτουργούν για αυτόν τον λογαριασμό.",
+      "reconfigure_not_supported": "Μόνο οι καταχωρίσεις λογαριασμού MakerWorld μπορούν να διαμορφωθούν εκ νέου με αυτόν τον τρόπο.",
+      "reconfigure_successful": "Τα διαπιστευτήρια MakerWorld ενημερώθηκαν."
     },
     "error": {
       "cannot_connect": "Αποτυχία σύνδεσης. Ελέγξτε τα στοιχεία σύνδεσης.",
@@ -84,7 +87,9 @@
             "description": "Αυτές οι επιλογές χρειάζονται μόνο εάν έχετε μια μη τυπική ρύθμιση.",
             "data": {
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
-              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού"
+              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
+              "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
             }
           }
         }
@@ -106,9 +111,18 @@
             "description": "Αυτές οι επιλογές χρειάζονται μόνο εάν έχετε μια μη τυπική ρύθμιση.",
             "data": {
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
-              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού"
+              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
+              "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
             }
           }
+        }
+      },
+      "makerworld": {
+        "title": "Λογαριασμός MakerWorld",
+        "description": "Χρησιμοποιήστε λειτουργικά διαπιστευτήρια Bambu Cloud από μια υπάρχουσα καταχώρηση εκτυπωτή. Δεν απαιτείται πρόσθετη σύνδεση.",
+        "data": {
+          "username": "Λογαριασμός Bambu:"
         }
       }
     }
@@ -116,7 +130,9 @@
   "options": {
     "abort": {
       "cloudflare": "Το Cloudflare έχει μπλοκάρει την προσπάθεια σύνδεσης.",
-      "curl_unavailable": "Η βιβλιοθήκη curl_cffi δεν είναι διαθέσιμη."
+      "curl_unavailable": "Η βιβλιοθήκη curl_cffi δεν είναι διαθέσιμη.",
+      "no_working_credentials": "Δεν διατίθενται διαπιστευτήρια εκτυπωτή Bambu Cloud που να λειτουργούν για αυτόν τον λογαριασμό.",
+      "no_ams": "Δεν έχει εντοπιστεί ακόμη AMS σε αυτόν τον εκτυπωτή. Περιμένετε να συνδεθεί ο εκτυπωτής και αναφέρετε τις μονάδες AMS του και, στη συνέχεια, δοκιμάστε ξανά."
     },
     "error": {
       "cannot_connect": "Αποτυχία σύνδεσης",
@@ -179,7 +195,9 @@
             "description": "Αυτές οι προηγμένες επιλογές είναι πρώιμες ή επικίνδυνες λειτουργίες. Διαβάστε την τεκμηρίωση και χρησιμοποιήστε τα με δική σας ευθύνη.",
             "data": {
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
-              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού"
+              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
+              "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
             }
           }
         }
@@ -200,9 +218,23 @@
             "description": "Αυτές οι προηγμένες επιλογές είναι πρώιμες ή επικίνδυνες λειτουργίες. Διαβάστε την τεκμηρίωση και χρησιμοποιήστε τα με δική σας ευθύνη.",
             "data": {
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
-              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού"
+              "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
+              "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
             }
           }
+        }
+      },
+      "ams_heater": {
+        "title": "Εξωτερική θερμάστρα ή στεγνωτήριο AMS",
+        "description": "Οι πρόσθετες θερμάστρες και στεγνωτήρια AMS, όπως το SUNLU AMS Heater και το EIBOS Series X (Dyas/Tetras) δεν έχουν σύνδεση δικτύου, επομένως το Home Assistant ελέγχει ένα, αλλάζοντας το έξυπνο βύσμα από το οποίο τροφοδοτείται.\n\nΕπιλέξτε το βύσμα για κάθε AMS που έχει τοποθετημένο θερμαντήρα ή αφήστε το άδειο. Κάθε συνδεδεμένο AMS λαμβάνει τη λειτουργία στεγνώματος θερμαντήρα, την ισχύ του θερμαντήρα, το όριο υγρασίας, τη διακοπή θερμοκρασίας και τις οντότητες ορίου χρόνου λειτουργίας.\n\nΡυθμίστε το ίδιο το θερμαντήρα ή το στεγνωτήριο ώστε να ξεκινά τη θέρμανση όταν είναι ενεργοποιημένο, έτσι η ενεργοποίηση του βύσματος αρχίζει να στεγνώνει."
+      },
+      "makerworld": {
+        "title": "Λογαριασμός MakerWorld",
+        "description": "Χρησιμοποιήστε λειτουργικά διαπιστευτήρια Bambu Cloud από μια υπάρχουσα καταχώρηση εκτυπωτή. Δεν απαιτείται πρόσθετη σύνδεση.",
+        "data": {
+          "username": "Λογαριασμός Bambu:",
+          "credential_source": "Λογαριασμός Bambu:"
         }
       }
     }
@@ -250,6 +282,9 @@
       },
       "right_extruder_filament_state": {
         "name": "Δεξί νήμα εξωθητή"
+      },
+      "top_cover_open": {
+        "name": "Πάνω εξώφυλλο"
       }
     },
     "button": {
@@ -276,6 +311,12 @@
       },
       "buzzer_beeping": {
         "name": "Βομβητής - ηχογράφηση"
+      },
+      "hotend_rack_raise": {
+        "name": "Σηκώστε το ράφι"
+      },
+      "hotend_rack_lower": {
+        "name": "Κάτω ράφι"
       }
     },
     "fan": {
@@ -302,6 +343,19 @@
       },
       "exhaust_fan": {
         "name": "Ανεμιστήρας εξάτμισης"
+      },
+      "air_purifier": {
+        "name": "Καθαριστής αέρα",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Αυτο",
+              "silent": "Σιωπηλός",
+              "standard": "Πρότυπο",
+              "max": "Μέγ"
+            }
+          }
+        }
       }
     },
     "image": {
@@ -335,6 +389,18 @@
       },
       "target_chamber_temperature": {
         "name": "Θερμοκρασία στόχου θαλάμου"
+      },
+      "ams_heater_humidity_on": {
+        "name": "Υγρασία ενεργοποίησης θερμαντήρα"
+      },
+      "ams_heater_humidity_off": {
+        "name": "Υγρασία απενεργοποίησης θερμαντήρα"
+      },
+      "ams_heater_max_temperature": {
+        "name": "Διακοπή θερμοκρασίας θερμαντήρα"
+      },
+      "ams_heater_max_runtime": {
+        "name": "Μέγιστος χρόνος λειτουργίας θερμαντήρα"
       }
     },
     "select": {
@@ -1066,22 +1132,90 @@
           }
         }
       },
-      "zone_remaining_drying_time": {
-        "name": "Χρόνος στεγνώματος ζώνης {zone_number} που απομένει",
+      "air_purifier_pm25": {
+        "name": "PM2,5"
+      },
+      "air_purifier_fan_speed": {
+        "name": "Ταχύτητα ανεμιστήρα"
+      },
+      "hotend_rack_swaptek_holder_position": {
+        "name": "Θέση Swaptek (ακατέργαστη)"
+      },
+      "hotend_rack_swaptek_holder_state": {
+        "name": "Κατάσταση Swaptek (ακατέργαστη)"
+      },
+      "hotend_rack_printtool": {
+        "name": "PrintTool {tool_number}",
+        "state": {
+          "mounted": "Εφιππος",
+          "docked": "Ελλιμενισμένο",
+          "empty": "Αδειάζω"
+        },
         "state_attributes": {
-          "zone": {
-            "name": "Ζώνη"
+          "tool": {
+            "name": "Εργαλείο"
           },
-          "zone_id": {
-            "name": "Ταυτότητα ζώνης"
+          "filament_diameter": {
+            "name": "Διάμετρος νήματος"
           },
-          "slots": {
-            "name": "Κουλοχέρηδες"
+          "filament_name": {
+            "name": "Όνομα νήματος"
           },
-          "dry_setting": {
-            "name": "Ρύθμιση στεγνώματος"
+          "filament_type": {
+            "name": "Τύπος νήματος"
+          },
+          "remaining_weight_g": {
+            "name": "Υπολειπόμενο βάρος νήματος"
+          },
+          "remaining_percent": {
+            "name": "Υπολειπόμενο νήμα"
+          },
+          "ams_id": {
+            "name": "Αναγνωριστικό AMS"
+          },
+          "ams_slot": {
+            "name": "υποδοχή AMS"
+          },
+          "nozzle_diameter": {
+            "name": "Διάμετρος ακροφυσίου"
+          },
+          "nozzle_type": {
+            "name": "Τύπος ακροφυσίου"
+          },
+          "nozzle_type_code": {
+            "name": "Κωδικός τύπου ακροφυσίου"
+          },
+          "max_temperature": {
+            "name": "Μέγιστη θερμοκρασία"
+          },
+          "serial": {
+            "name": "Αύξων αριθμός"
+          },
+          "filament_id": {
+            "name": "Αναγνωριστικό νήματος"
+          },
+          "color": {
+            "name": "Χρώμα"
+          },
+          "wear": {
+            "name": "Φθορά"
+          },
+          "status_raw": {
+            "name": "Κατάσταση (ακατέργαστη)"
           }
         }
+      },
+      "hotend_rack_printtool_temperature": {
+        "name": "Θερμοκρασία του PrintTool {tool_number}"
+      },
+      "hotend_rack_printtool_target_temperature": {
+        "name": "PrintTool {tool_number} θερμοκρασία στόχου"
+      },
+      "hotend_rack_printtool_used_time": {
+        "name": "PrintTool {tool_number} χρόνος εκτύπωσης"
+      },
+      "filament_inventory": {
+        "name": "Απογραφή νήματος"
       }
     },
     "camera": {
@@ -1101,6 +1235,12 @@
       },
       "ftp": {
         "name": "Φόρτωση δεδομένων μοντέλου από εκτυπωτή"
+      },
+      "ams_heater_drying": {
+        "name": "Λειτουργία στεγνώματος θερμαντήρα"
+      },
+      "ams_heater_power": {
+        "name": "Ισχύς θερμαντήρα"
       }
     },
     "update": {
@@ -1113,7 +1253,9 @@
     "configuration_type": {
       "options": {
         "bambu": "Σύννεφο Bambu Lab",
-        "lan": "Lan Mode"
+        "lan": "Lan Mode",
+        "makerworld": "Λογαριασμός MakerWorld",
+        "ams_heater": "Εξωτερική θερμάστρα ή στεγνωτήριο AMS (έξυπνο βύσμα)"
       }
     }
   },

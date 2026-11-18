@@ -12,6 +12,7 @@
     "http",
     "lovelace",
     "mqtt",
+    "stream",
     "websocket_api"
   ],
   "documentation": "https://github.com/greghesp/ha-bambulab",
@@ -25,5 +26,5 @@
       "st": "urn:bambulab-com:device:3dprinter:1"
     }
   ],  
-  "version": "2.4.0"
+  "version": "2.4.1"
 }

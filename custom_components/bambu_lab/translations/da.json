@@ -17,7 +17,10 @@
       "already_configured": "Enhed er allerede konfigureret",
       "no_printers": "Ingen ukonfigurerede printere fundet på kontoen.",
       "cloudflare": "Cloudflare har blokeret forbindelsesforsøget.",
-      "curl_unavailable": "curl_cffi-biblioteket er ikke tilgængeligt."
+      "curl_unavailable": "curl_cffi-biblioteket er ikke tilgængeligt.",
+      "no_working_credentials": "Ingen fungerende Bambu Cloud-printerlegitimationsoplysninger er tilgængelige for denne konto.",
+      "reconfigure_not_supported": "Kun MakerWorld-kontoposter kan omkonfigureres på denne måde.",
+      "reconfigure_successful": "MakerWorld legitimationsoplysninger opdateret."
     },
     "error": {
       "cannot_connect": "Forbindelse mislykkedes. Tjek legitimationsoplysninger.",
@@ -84,7 +87,9 @@
             "description": "Disse indstillinger er kun nødvendige, hvis du har en ikke-standardopsætning.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
             }
           }
         }
@@ -106,9 +111,18 @@
             "description": "Disse indstillinger er kun nødvendige, hvis du har en ikke-standardopsætning.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
             }
           }
+        }
+      },
+      "makerworld": {
+        "title": "MakerWorld-konto",
+        "description": "Brug fungerende Bambu Cloud-legitimationsoplysninger fra en eksisterende printerpost. Der kræves ikke yderligere login.",
+        "data": {
+          "username": "Bambu konto:"
         }
       }
     }
@@ -116,7 +130,9 @@
   "options": {
     "abort": {
       "cloudflare": "Cloudflare har blokeret forbindelsesforsøget.",
-      "curl_unavailable": "curl_cffi-biblioteket er ikke tilgængeligt."
+      "curl_unavailable": "curl_cffi-biblioteket er ikke tilgængeligt.",
+      "no_working_credentials": "Ingen fungerende Bambu Cloud-printerlegitimationsoplysninger er tilgængelige for denne konto.",
+      "no_ams": "Ingen AMS er blevet identificeret på denne printer endnu. Vent på, at printeren har oprettet forbindelse og rapporterer sine AMS-enheder, og prøv derefter igen."
     },
     "error": {
       "cannot_connect": "Forbindelse mislykkedes",
@@ -179,7 +195,9 @@
             "description": "Disse avancerede muligheder er tidlig eller risikabel funktionalitet. Læs dokumentationen, og brug dem på din egen risiko.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
             }
           }
         }
@@ -200,9 +218,23 @@
             "description": "Disse avancerede muligheder er tidlig eller risikabel funktionalitet. Læs dokumentationen og brug dem på din egen risiko.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
             }
           }
+        }
+      },
+      "ams_heater": {
+        "title": "Ekstern AMS varmelegeme eller tørretumbler",
+        "description": "Ekstra AMS-varmere og -tørretumblere såsom SUNLU AMS Heater og EIBOS Series X (Dyas/Tetras) har ingen netværksforbindelse, så Home Assistant styrer en ved at skifte det smarte stik, den får strøm fra.\n\nVælg det stik til hver AMS, der har et varmelegeme monteret, eller lad det stå tomt. Hvert forbundet AMS får varmelegemetørringstilstand, varmelegemeeffekt, fugttærskel, temperaturafskæring og driftstidsgrænseenheder.\n\nIndstil selve varmeapparatet eller tørretumbleren til at starte opvarmning, når den er tændt, så at skifte stikket faktisk begynder at tørre."
+      },
+      "makerworld": {
+        "title": "MakerWorld-konto",
+        "description": "Brug fungerende Bambu Cloud-legitimationsoplysninger fra en eksisterende printerpost. Der kræves ikke yderligere login.",
+        "data": {
+          "username": "Bambu konto:",
+          "credential_source": "Bambu konto:"
         }
       }
     }
@@ -250,6 +282,9 @@
       },
       "right_extruder_filament_state": {
         "name": "Højre ekstruderfilament"
+      },
+      "top_cover_open": {
+        "name": "Topdæksel"
       }
     },
     "button": {
@@ -276,6 +311,12 @@
       },
       "buzzer_beeping": {
         "name": "Buzzer - Biping"
+      },
+      "hotend_rack_raise": {
+        "name": "Hæv stativet"
+      },
+      "hotend_rack_lower": {
+        "name": "Nederste stativ"
       }
     },
     "fan": {
@@ -302,6 +343,19 @@
       },
       "exhaust_fan": {
         "name": "Udstødningsventilator"
+      },
+      "air_purifier": {
+        "name": "Luftrenser",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Auto",
+              "silent": "Stille",
+              "standard": "Standard",
+              "max": "Maks"
+            }
+          }
+        }
       }
     },
     "image": {
@@ -335,6 +389,18 @@
       },
       "target_chamber_temperature": {
         "name": "Kammerets måltemperatur"
+      },
+      "ams_heater_humidity_on": {
+        "name": "Varmelegeme tændt fugtighed"
+      },
+      "ams_heater_humidity_off": {
+        "name": "Fugtighed fra varmeapparatet"
+      },
+      "ams_heater_max_temperature": {
+        "name": "Varmetemperaturafbrydelse"
+      },
+      "ams_heater_max_runtime": {
+        "name": "Varmeapparat maksimal driftstid"
       }
     },
     "select": {
@@ -1066,22 +1132,90 @@
           }
         }
       },
-      "zone_remaining_drying_time": {
-        "name": "Zone {zone_number} resterende tørretid",
+      "air_purifier_pm25": {
+        "name": "PM2,5"
+      },
+      "air_purifier_fan_speed": {
+        "name": "Blæserhastighed"
+      },
+      "hotend_rack_swaptek_holder_position": {
+        "name": "Swaptek position (rå)"
+      },
+      "hotend_rack_swaptek_holder_state": {
+        "name": "Swaptek-status (rå)"
+      },
+      "hotend_rack_printtool": {
+        "name": "PrintTool {tool_number}",
+        "state": {
+          "mounted": "Monteret",
+          "docked": "Docket",
+          "empty": "Tom"
+        },
         "state_attributes": {
-          "zone": {
-            "name": "Zone"
+          "tool": {
+            "name": "Værktøj"
           },
-          "zone_id": {
-            "name": "Zone ID"
+          "filament_diameter": {
+            "name": "Filament diameter"
           },
-          "slots": {
-            "name": "Slots"
+          "filament_name": {
+            "name": "Filament navn"
           },
-          "dry_setting": {
-            "name": "Tørre indstilling"
+          "filament_type": {
+            "name": "Filament type"
+          },
+          "remaining_weight_g": {
+            "name": "Resterende filamentvægt"
+          },
+          "remaining_percent": {
+            "name": "Resterende filament"
+          },
+          "ams_id": {
+            "name": "AMS ID"
+          },
+          "ams_slot": {
+            "name": "AMS slot"
+          },
+          "nozzle_diameter": {
+            "name": "Dyse diameter"
+          },
+          "nozzle_type": {
+            "name": "Dysetype"
+          },
+          "nozzle_type_code": {
+            "name": "Dysetypekode"
+          },
+          "max_temperature": {
+            "name": "Max temperatur"
+          },
+          "serial": {
+            "name": "Serienummer"
+          },
+          "filament_id": {
+            "name": "Filament ID"
+          },
+          "color": {
+            "name": "Farve"
+          },
+          "wear": {
+            "name": "Slid"
+          },
+          "status_raw": {
+            "name": "Status (rå)"
           }
         }
+      },
+      "hotend_rack_printtool_temperature": {
+        "name": "PrintTool {tool_number} temperatur"
+      },
+      "hotend_rack_printtool_target_temperature": {
+        "name": "PrintTool {tool_number} måltemperatur"
+      },
+      "hotend_rack_printtool_used_time": {
+        "name": "PrintTool {tool_number} udskrivningstid"
+      },
+      "filament_inventory": {
+        "name": "Filament inventar"
       }
     },
     "camera": {
@@ -1101,6 +1235,12 @@
       },
       "ftp": {
         "name": "Indlæsningsmodeldata fra printer"
+      },
+      "ams_heater_drying": {
+        "name": "Varmetørringstilstand"
+      },
+      "ams_heater_power": {
+        "name": "Varmekraft"
       }
     },
     "update": {
@@ -1113,7 +1253,9 @@
     "configuration_type": {
       "options": {
         "bambu": "Bambu Lab sky",
-        "lan": "Lan-tilstand"
+        "lan": "Lan-tilstand",
+        "makerworld": "MakerWorld-konto",
+        "ams_heater": "Ekstern AMS varmelegeme eller tørretumbler (smart stik)"
       }
     }
   },

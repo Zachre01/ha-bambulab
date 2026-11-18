@@ -35,6 +35,7 @@ from dataclasses import dataclass
 
 from .const import (
      LOGGER,
+     USER_AGENT,
      BambuUrl,
      Printers
 )
@@ -93,10 +94,12 @@ class BambuCloud:
         self._username = username
         self._auth_token = auth_token
         self._tfaKey = None
+        # MakerWorld endpoint -> the auth token it refused. See _get_makerworld_private.
+        self._makerworld_rejected: dict[BambuUrl, str] = {}
 
     def _get_headers(self):
         return {
-            'User-Agent': 'ha-bambulab/v1',
+            'User-Agent': USER_AGENT,
             'X-BBL-Client-Name': 'ha-bambulab',
             'X-BBL-Client-Type': 'homeautomation',
             'X-BBL-Client-Version': '01.00.00.00',
@@ -512,7 +515,44 @@ class BambuCloud:
         except:
             return None
         return response.json()
-    
+
+    # The filament inventory ("Filament Manager") is of the following form:
+    #
+    # {
+    #     "hits": [
+    #         {
+    #             "id": 6915055,
+    #             "createType": "ams",
+    #             "filamentVendor": "Bambu Lab",
+    #             "filamentType": "PLA",
+    #             "filamentName": "PLA Basic",
+    #             "filamentId": "GFA00",
+    #             "RFID": "REDACTED",
+    #             "color": "#FFFFFFFF",
+    #             "colorType": 2,
+    #             "colors": ["#FFFFFFFF"],
+    #             "netWeight": 931,
+    #             "totalNetWeight": 1000,
+    #             "note": "",
+    #             "createdAt": 1780424283,
+    #             "updatedAt": 1780424283,
+    #             "status": 0,
+    #             "isSupport": false,
+    #             "trayIdName": "A00-W01",
+    #             "category": "PLA"
+    #         },
+    #         ...
+    #     ]
+    # }
+
+    def get_filaments(self) -> dict:
+        LOGGER.debug("Getting filament inventory from Bambu Cloud")
+        try:
+            response = self._get(BambuUrl.FILAMENTS)
+        except:
+            return None
+        return response.json()
+
     # The task list is of the following form with a 'hits' array with typical 20 entries.
     #
     # "total": 531,
@@ -679,11 +719,28 @@ class BambuCloud:
     def get_makerworld_points(self) -> dict:
         """Retrieve the MakerWorld points ledger totals for the account."""
         LOGGER.debug("Getting MakerWorld points from Bambu Cloud")
+        return self._get_makerworld_private(BambuUrl.POINT_BILL, "MakerWorld points")
+
+    def _get_makerworld_private(self, urlenum: BambuUrl, what: str) -> dict | None:
+        """Best effort GET of an account private MakerWorld endpoint.
+
+        Once the endpoint refuses the current token, it isn't asked again until
+        the token changes: polling it anyway only produces a 401 per poll, which
+        Bambu has flagged as abnormal traffic (#2270)."""
+        if self._makerworld_rejected.get(urlenum) == self._auth_token:
+            return None
         try:
-            response = self._get(BambuUrl.POINT_BILL)
+            response = self._get(urlenum)
             return response.json()
+        except PermissionError as e:
+            if e.args and e.args[0] in (401, 403):
+                LOGGER.debug(f"{what} refused for this token; not polling it again until re-login")
+                self._makerworld_rejected[urlenum] = self._auth_token
+            else:
+                LOGGER.debug(f"Failed to retrieve {what}: {e}")
+            return None
         except Exception as e:
-            LOGGER.debug(f"Failed to retrieve MakerWorld points: {e}")
+            LOGGER.debug(f"Failed to retrieve {what}: {e}")
             return None
 
     # Boost tokens. Verified shape:
@@ -699,12 +756,7 @@ class BambuCloud:
     def get_makerworld_boosts(self) -> dict:
         """Retrieve the account's boost token counts."""
         LOGGER.debug("Getting MakerWorld boost tokens from Bambu Cloud")
-        try:
-            response = self._get(BambuUrl.BOOST_RIGHT)
-            return response.json()
-        except Exception as e:
-            LOGGER.debug(f"Failed to retrieve MakerWorld boost tokens: {e}")
-            return None
+        return self._get_makerworld_private(BambuUrl.BOOST_RIGHT, "MakerWorld boost tokens")
 
     def get_uid(self) -> str | None:
         """The numeric account id, which doubles as the MakerWorld profile id."""
@@ -730,7 +782,7 @@ class BambuCloud:
         LOGGER.debug(f"Downloading cover image: {url}")
         try:
             # This is just a standard download from an unauthenticated end point.
-            response = requests.get(url)
+            response = requests.get(url, headers={'User-Agent': USER_AGENT})
         except:
             return None
         return response.content

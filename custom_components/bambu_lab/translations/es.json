@@ -17,7 +17,10 @@
       "already_configured": "El dispositivo ya estaba configurado",
       "no_printers": "No se encontraron impresoras configuradas en la cuenta.",
       "cloudflare": "Cloudflare ha bloqueado el intento de conexión.",
-      "curl_unavailable": "La librería curl_cffi no está disponible."
+      "curl_unavailable": "La librería curl_cffi no está disponible.",
+      "no_working_credentials": "No hay credenciales de impresora Bambu Cloud que funcionen disponibles para esta cuenta.",
+      "reconfigure_not_supported": "Sólo las entradas de la cuenta MakerWorld se pueden reconfigurar de esta manera.",
+      "reconfigure_successful": "Credenciales de MakerWorld actualizadas."
     },
     "error": {
       "cannot_connect": "Error al conectar. Revisa las credenciales.",
@@ -84,7 +87,9 @@
             "description": "Estas opciones solo son necesarias si tiene una configuración no estándar.",
             "data": {
               "disable_ssl_verify": "Desactivar la verificación SSL",
-              "enable_firmware_update": "Habilitar soporte de actualización de firmware"
+              "enable_firmware_update": "Habilitar soporte de actualización de firmware",
+              "enable_filament_inventory": "Habilitar el inventario de filamentos (Filament Manager, requiere Bambu Cloud)",
+              "filament_inventory_interval": "Intervalo de actualización del inventario de filamentos (minutos):"
             }
           }
         }
@@ -106,9 +111,18 @@
             "description": "Estas opciones solo son necesarias si tiene una configuración no estándar.",
             "data": {
               "disable_ssl_verify": "Desactivar la verificación SSL",
-              "enable_firmware_update": "Habilitar soporte de actualización de firmware"
+              "enable_firmware_update": "Habilitar soporte de actualización de firmware",
+              "enable_filament_inventory": "Habilitar el inventario de filamentos (Filament Manager, requiere Bambu Cloud)",
+              "filament_inventory_interval": "Intervalo de actualización del inventario de filamentos (minutos):"
             }
           }
+        }
+      },
+      "makerworld": {
+        "title": "Cuenta MakerWorld",
+        "description": "Utilice credenciales de Bambu Cloud que funcionen desde una entrada de impresora existente. No se requiere inicio de sesión adicional.",
+        "data": {
+          "username": "Cuenta Bambú:"
         }
       }
     }
@@ -116,7 +130,9 @@
   "options": {
     "abort": {
       "cloudflare": "Cloudflare ha bloqueado el intento de conexión.",
-      "curl_unavailable": "La librería curl_cffi no está disponible."
+      "curl_unavailable": "La librería curl_cffi no está disponible.",
+      "no_working_credentials": "No hay credenciales de impresora Bambu Cloud que funcionen disponibles para esta cuenta.",
+      "no_ams": "Aún no se ha identificado ningún AMS en esta impresora. Espere a que la impresora se conecte e informe sus unidades AMS y vuelva a intentarlo."
     },
     "error": {
       "cannot_connect": "Error al conectar",
@@ -179,7 +195,9 @@
             "description": "Estas opciones avanzadas son la funcionalidad temprana o arriesgada. Lea la documentación y úsela bajo su propio riesgo.",
             "data": {
               "disable_ssl_verify": "Desactivar la verificación SSL",
-              "enable_firmware_update": "Habilitar soporte de actualización de firmware"
+              "enable_firmware_update": "Habilitar soporte de actualización de firmware",
+              "enable_filament_inventory": "Habilitar el inventario de filamentos (Filament Manager, requiere Bambu Cloud)",
+              "filament_inventory_interval": "Intervalo de actualización del inventario de filamentos (minutos):"
             }
           }
         }
@@ -200,9 +218,23 @@
             "description": "Estas opciones avanzadas son la funcionalidad temprana o arriesgada. Lea la documentación y úsela bajo su propio riesgo.",
             "data": {
               "disable_ssl_verify": "Desactivar la verificación SSL",
-              "enable_firmware_update": "Habilitar soporte de actualización de firmware"
+              "enable_firmware_update": "Habilitar soporte de actualización de firmware",
+              "enable_filament_inventory": "Habilitar el inventario de filamentos (Filament Manager, requiere Bambu Cloud)",
+              "filament_inventory_interval": "Intervalo de actualización del inventario de filamentos (minutos):"
             }
           }
+        }
+      },
+      "ams_heater": {
+        "title": "Calentador o secador AMS externo",
+        "description": "Los calentadores y secadores AMS complementarios, como el calentador SUNLU AMS y el EIBOS Serie X (Dyas/Tetras), no tienen conexión de red, por lo que Home Assistant controla uno cambiando el enchufe inteligente desde el que se alimenta.\n\nElija ese enchufe para cada AMS que tenga instalado un calentador o déjelo vacío. Cada AMS vinculado obtiene entidades de modo de secado del calentador, potencia del calentador, umbral de humedad, corte de temperatura y límite de tiempo de ejecución.\n\nConfigure el calentador o la secadora para que comience a calentar cuando esté encendido, de modo que al encender el enchufe realmente comience a secarse."
+      },
+      "makerworld": {
+        "title": "Cuenta MakerWorld",
+        "description": "Utilice credenciales de Bambu Cloud que funcionen desde una entrada de impresora existente. No se requiere inicio de sesión adicional.",
+        "data": {
+          "username": "Cuenta Bambú:",
+          "credential_source": "Cuenta Bambú:"
         }
       }
     }
@@ -250,6 +282,9 @@
       },
       "right_extruder_filament_state": {
         "name": "Filamento extrusor derecho"
+      },
+      "top_cover_open": {
+        "name": "cubierta superior"
       }
     },
     "button": {
@@ -276,6 +311,12 @@
       },
       "buzzer_beeping": {
         "name": "Timbre - pitido"
+      },
+      "hotend_rack_raise": {
+        "name": "Levantar la rejilla"
+      },
+      "hotend_rack_lower": {
+        "name": "Rejilla inferior"
       }
     },
     "fan": {
@@ -302,6 +343,19 @@
       },
       "exhaust_fan": {
         "name": "Ventilador de escape"
+      },
+      "air_purifier": {
+        "name": "Purificador de aire",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "auto": "Auto",
+              "silent": "Silencioso",
+              "standard": "Estándar",
+              "max": "máx."
+            }
+          }
+        }
       }
     },
     "image": {
@@ -335,6 +389,18 @@
       },
       "target_chamber_temperature": {
         "name": "Temperatura objetivo de la cámara"
+      },
+      "ams_heater_humidity_on": {
+        "name": "Humedad al encender el calentador"
+      },
+      "ams_heater_humidity_off": {
+        "name": "Humedad al apagar el calentador"
+      },
+      "ams_heater_max_temperature": {
+        "name": "Corte de temperatura del calentador"
+      },
+      "ams_heater_max_runtime": {
+        "name": "Tiempo de funcionamiento máximo del calentador"
       }
     },
     "select": {
@@ -1066,22 +1132,90 @@
           }
         }
       },
-      "zone_remaining_drying_time": {
-        "name": "Zona {zone_number} tiempo de secado restante",
+      "air_purifier_pm25": {
+        "name": "PM2.5"
+      },
+      "air_purifier_fan_speed": {
+        "name": "Velocidad del ventilador"
+      },
+      "hotend_rack_swaptek_holder_position": {
+        "name": "Posición de Swaptek (sin procesar)"
+      },
+      "hotend_rack_swaptek_holder_state": {
+        "name": "Estado de Swaptek (sin procesar)"
+      },
+      "hotend_rack_printtool": {
+        "name": "Herramienta de impresión {tool_number}",
+        "state": {
+          "mounted": "Montado",
+          "docked": "Atracado",
+          "empty": "Vacío"
+        },
         "state_attributes": {
-          "zone": {
-            "name": "Zona"
+          "tool": {
+            "name": "Herramienta"
           },
-          "zone_id": {
-            "name": "ID de zona"
+          "filament_diameter": {
+            "name": "Diámetro del filamento"
           },
-          "slots": {
-            "name": "Tragamonedas"
+          "filament_name": {
+            "name": "Nombre del filamento"
           },
-          "dry_setting": {
-            "name": "Ajuste de secado"
+          "filament_type": {
+            "name": "tipo de filamento"
+          },
+          "remaining_weight_g": {
+            "name": "Peso restante del filamento"
+          },
+          "remaining_percent": {
+            "name": "Filamento restante"
+          },
+          "ams_id": {
+            "name": "ID de AMS"
+          },
+          "ams_slot": {
+            "name": "Ranura AMS"
+          },
+          "nozzle_diameter": {
+            "name": "Diámetro de la boquilla"
+          },
+          "nozzle_type": {
+            "name": "Tipo de boquilla"
+          },
+          "nozzle_type_code": {
+            "name": "Código de tipo de boquilla"
+          },
+          "max_temperature": {
+            "name": "temperatura máxima"
+          },
+          "serial": {
+            "name": "Número de serie"
+          },
+          "filament_id": {
+            "name": "ID de filamento"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "wear": {
+            "name": "Tener puesto"
+          },
+          "status_raw": {
+            "name": "Estado (sin procesar)"
           }
         }
+      },
+      "hotend_rack_printtool_temperature": {
+        "name": "Temperatura de PrintTool {tool_number}"
+      },
+      "hotend_rack_printtool_target_temperature": {
+        "name": "PrintTool {tool_number} temperatura objetivo"
+      },
+      "hotend_rack_printtool_used_time": {
+        "name": "PrintTool {tool_number} tiempo de impresión"
+      },
+      "filament_inventory": {
+        "name": "inventario de filamentos"
       }
     },
     "camera": {
@@ -1101,6 +1235,12 @@
       },
       "ftp": {
         "name": "Cargar datos del modelo de la impresora"
+      },
+      "ams_heater_drying": {
+        "name": "Modo de secado del calentador"
+      },
+      "ams_heater_power": {
+        "name": "Potencia del calentador"
       }
     },
     "update": {
@@ -1113,7 +1253,9 @@
     "configuration_type": {
       "options": {
         "bambu": "Nube de laboratorio de bambú",
-        "lan": "Modo LAN"
+        "lan": "Modo LAN",
+        "makerworld": "Cuenta MakerWorld",
+        "ams_heater": "Calentador o secador AMS externo (enchufe inteligente)"
       }
     }
   },
